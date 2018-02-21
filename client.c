@@ -1,3 +1,9 @@
+/*
+TODO:
+    finish service() (cmd interface that helps you to "speak" with the server
+    implement basic commands to move between directories
+    and more...
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -22,6 +28,12 @@ int login(int sockfd, char* ip);
 void reply_handle(int code);
 int service(int sockfd, char* ip);
 
+/* function reply_handle
+    code - server reply code
+    prints a description for a reply code
+    TODO:
+        remove unneeded codes
+*/
 void reply_handle(int code) {
     switch(code) {
         case 200:
@@ -67,6 +79,11 @@ void reply_handle(int code) {
     }
 }
 
+/* function socket_create
+    ip - server ip address (argv[1])
+    creates socket and connects to server
+    returns socket fd, else -1
+*/
 int socket_create(char* ip) {
     int sockfd = 0;
     struct sockaddr_in* srv_addr = malloc(sizeof(struct sockaddr_in));
@@ -95,6 +112,12 @@ int socket_create(char* ip) {
     return sockfd;
 }
 
+/* function login
+    sockfd - socket descriptor
+    ip - server ip address(argv[1])
+    sends USER and PASS commands to server
+    returns 0 on successful completion, else -1 
+*/
 int login(int sockfd, char* ip) {
     int res, ftp_code;
     char buffer[BUFSIZE];
@@ -159,7 +182,6 @@ int login(int sockfd, char* ip) {
 }
 
 int main(int argc, char* argv[]) {
-     //example server: ftp://91.216.211.99/
     int sockfd = socket_create(argv[1]);
  
     if(sockfd == -1) {
