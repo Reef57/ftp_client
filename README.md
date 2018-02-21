@@ -1,2 +1,2 @@
 # ftp_client
-C FTP client
+C FTP client (not finished yet)
